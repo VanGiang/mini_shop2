@@ -1,0 +1,38 @@
+<h1>List products in your cart</h1>
+<div class="div_text">
+Chuc mung 
+<%= current_user.name%>, day la cac san pham ban vua chon:
+</div>
+<table class="table1">
+  <tr>
+    <th>Name</th>
+    <th>Quantity</th>
+    <th>Price</th>
+  </tr>
+<% total = 0 %>
+<% @products = Product.all %>
+<% a = session[:carts]%>
+<% @products.each do |product| %>
+  <% if(a.has_key?(:"#{product.id}"))%>
+  <tr>
+    <td><b><%= link_to product.name, "#" %></b></td>
+    <td><%= a[:"#{product.id}"] %></td>
+    <td><%= product.price %></td>
+    <% total = total +  product.price*a[:"#{product.id}"] %>
+    
+    
+  </tr>
+<% end %>
+<% end %>
+</table>
+
+
+<div class="div_text">
+Total price:  <%= total%>
+</div>
+<%= link_to "Emty cart", delcart_path, method: "DELETE", class: "btn btn-large btn-primary" %>
+
+
+
+<%= link_to "Buy now", orders_path, method: "POST", class: "btn btn-large btn-primary" %>
+

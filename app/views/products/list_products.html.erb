@@ -1,0 +1,39 @@
+
+
+<h1>List products </h1>
+
+<div style="margin-bottom:13px;">
+  
+<% @products.each do |product| %>
+
+  <div class="div_product">
+   <div class="title"><%= link_to product.name, product %></div>
+   <%= link_to image_tag(product.image.url), product %>
+    <div class="description"><%= product.description %></div>
+    <div class="price">Price:&nbsp$<%= product.price %></div>
+  
+    <% if signed_in? %>
+      
+    
+    <% if current_user.admin %>
+
+    <div class="cart"><%= link_to 'Edit', edit_product_path(product) %></div>
+    <div class="cart"><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></div>
+    <% else %>
+     <div class="cart"> <%= link_to 'Add to cart' ,  add_to_carts_path(product), method: "post"%></div>
+    <% end %>
+    <% end %>
+    
+ </div>
+<% end %>
+
+</div>
+
+<br />
+<% if signed_in? %>
+<% if current_user.admin %>
+<div style="clear:both;">
+<%= link_to 'New Product', new_product_path,class: "btn btn-large btn-primary" %>
+</div>
+<% end %>
+<% end %>
